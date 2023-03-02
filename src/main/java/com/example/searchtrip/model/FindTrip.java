@@ -12,8 +12,8 @@ public class FindTrip {
 
     public String id;
 
-    public String originName;
-    public String destName;
+    public String originId;
+    public String destId;
     public String stops;
     public String showPassingPoints;
 

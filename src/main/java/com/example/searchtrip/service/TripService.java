@@ -21,12 +21,13 @@ public class TripService {
         return restTemplate.getForObject("https://api.resrobot.se/v2.1/trip?", FindTrip.class);
     }
 
-    public TripDetails[] newTrip(FindTrip findTrip) {
+    public TripDetails[] newTrip(RestTemplate restTemplate) {
+        FindTrip findTrip = new FindTrip();
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(findTrip.getOriginName()) //"740000001"
-                .append("&destId=").append(findTrip.getDestName())
+                .append("&originId=").append(findTrip.getOriginId()) //"740000001"
+                .append("&destId=").append(findTrip.getDestId())
                 .append("&passlist=").append(findTrip.getStops())
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 

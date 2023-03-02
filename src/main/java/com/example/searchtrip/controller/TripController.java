@@ -1,11 +1,14 @@
 package com.example.searchtrip.controller;
 
+import com.example.searchtrip.model.FindTrip;
 import com.example.searchtrip.model.TripDetails;
 import com.example.searchtrip.service.TripService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/search/")
 public class TripController {
 
-    private TripService tripService;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("find")
     public void testing(RestTemplate restTemplate) {
@@ -55,13 +59,13 @@ public class TripController {
 
     @GetMapping("route")
     @ResponseBody
-    public String getTrip(RestTemplate restTemplate) {
+    public String getTrip() {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
                 .append("&originId=").append("740000001") //
-                .append("&destId=").append("740000003")
+                .append("&destId=").append("740000003") //
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 

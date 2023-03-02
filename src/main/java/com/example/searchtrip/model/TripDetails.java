@@ -18,8 +18,8 @@ public class TripDetails {
 
 
     public TripDetails(FindTrip findTrip) {
-        this.origin = findTrip.getOriginName();
-        this.destination = findTrip.getDestName();
+        this.origin = findTrip.getOriginId();
+        this.destination = findTrip.getDestId();
         this.stops = findTrip.getStops();
     }
 
