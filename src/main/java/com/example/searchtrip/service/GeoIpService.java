@@ -4,11 +4,13 @@ import com.example.searchtrip.model.GeoIP;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 
+@Service
 public class GeoIpService {
 
 

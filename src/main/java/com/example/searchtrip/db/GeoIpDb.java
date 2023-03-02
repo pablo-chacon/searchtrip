@@ -10,7 +10,6 @@ import com.maxmind.geoip2.model.CityResponse;
 
 public class GeoIpDb {
 
-
     File database;
     DatabaseReader dbReader;
     CityResponse response;
