@@ -1,0 +1,1 @@
+{"ip": "81.227.88.189", "type": "ipv4", "continent_code": "EU", "continent_name": "Europe", "country_code": "SE", "country_name": "Sweden", "region_code": "AB", "region_name": "AB", "city": "Jakobsberg", "zip": "177 57", "latitude": 59.42259979248047, "longitude": 17.833099365234375}

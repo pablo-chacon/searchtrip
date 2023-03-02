@@ -1,14 +1,10 @@
 package com.example.searchtrip.controller;
 
-import com.example.searchtrip.model.FindTrip;
-import com.example.searchtrip.model.TripDetails;
-import com.example.searchtrip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -69,10 +65,10 @@ public class TripController {
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
-        ResponseEntity<String> traffic = restTemplate
+        ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
 
-        return traffic.getBody();
+        return response.getBody();
     }
 }
