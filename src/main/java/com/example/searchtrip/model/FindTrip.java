@@ -1,20 +1,17 @@
 package com.example.searchtrip.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@Getter
-@Setter
+
+@Data
 public class FindTrip {
 
     public String id;
-
+    public String city;
     public String originLat, originLong;
     public String destLat, destLong;
     public String stops;
-    public String showPassingPoints;
+
 
 
 }
