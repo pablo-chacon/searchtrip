@@ -1,0 +1,6 @@
+What's upcoming, stuff I'm about to do:
+
+1. Collect data in the repo for the API:s to be able to collect/retrive data from eachother.
+2. Store relevant data in Azure SQL db.
+3. More request options to resrobot API.
+4. At login Automate collection of ipAddress to prepare locatipn requests.
