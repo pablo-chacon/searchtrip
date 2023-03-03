@@ -29,10 +29,10 @@ public class TripService {
                 .append("&originId=").append(findTrip.getOriginId()) //"740000001"
                 .append("&destId=").append(findTrip.getDestId())
                 .append("&passlist=").append(findTrip.getStops())
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("apiKey");
 
         TripDetails[] details = restTemplate
                 .getForObject(builder.toString(), TripDetails[].class);
         return details;
-    };
+    }
 }

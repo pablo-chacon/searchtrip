@@ -10,22 +10,49 @@ import java.net.UnknownHostException;
 
 
 @Controller
-@RequestMapping("/geo")
+@RequestMapping("/geo/")
 public class GeoController {
 
-
-
-    @GetMapping("/data")
+    @GetMapping("location")
     @ResponseBody
-    private String getGeoData() throws UnknownHostException {
-        String ipAddress = "Your ip";//
+    private String getLocation() throws UnknownHostException {
+        String ipAddress = "ipAddress";//
         String uri = "http://api.ipstack.com/" + ipAddress +
-                "?access_key=yourApiKey&fields=main";
+                "?access_key=apiKey&fields=main";
         RestTemplate restTemplate = new RestTemplate();
 
 
         return restTemplate.getForObject(uri, String.class);
     }
+
+    @GetMapping("lat")
+    @ResponseBody
+    private String getLat() throws UnknownHostException {
+        String ipAddress = "81.227.88.189";//
+        String uri = "http://api.ipstack.com/" + ipAddress +
+                "?access_key=apiKey&fields=latitude";
+        RestTemplate restTemplate = new RestTemplate();
+
+
+        return restTemplate.getForObject(uri, String.class);
+    }
+
+    @GetMapping("lon")
+    @ResponseBody
+    private String getLon() throws UnknownHostException {
+        String ipAddress = "81.227.88.189";//
+        String uri = "http://api.ipstack.com/" + ipAddress +
+                "?access_key=apiKey&fields=longitude";
+        RestTemplate restTemplate = new RestTemplate();
+
+
+        return restTemplate.getForObject(uri, String.class);
+    }
+
+
+    //&fields=longitude
+
+
 
 }
 
