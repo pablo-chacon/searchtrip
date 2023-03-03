@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
-/*
+
 public class GeoIpDb {
 
     File database;
@@ -23,7 +23,7 @@ public class GeoIpDb {
 
 
     public void fetchCityData() throws IOException, GeoIp2Exception {
-        String ip = "81.227.88.189";
+        String ip = "Your ip address";
         String dbLocation = "GeoLite2-City_20230228/GeoLite2-City.mmdb";
 
         File database = new File(dbLocation);
@@ -39,5 +39,5 @@ public class GeoIpDb {
         String state = response.getLeastSpecificSubdivision().getName();
     }
 }
-*/
+
 
