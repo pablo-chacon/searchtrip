@@ -23,7 +23,7 @@ public class GeoIpDb {
 
 
     public void fetchCityData() throws IOException, GeoIp2Exception {
-        String ip = "81.227.88.189";
+        String ip = "ipAddress";
         String dbLocation = "GeoLite2-City_20230228/GeoLite2-City.mmdb";
 
         File database = new File(dbLocation);
