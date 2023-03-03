@@ -18,9 +18,9 @@ public class GeoController {
     @GetMapping("/data")
     @ResponseBody
     private String getGeoData() throws UnknownHostException {
-        String ipAddress = "81.227.88.189";//
+        String ipAddress = "Your ip";//
         String uri = "http://api.ipstack.com/" + ipAddress +
-                "?access_key=d7cda786b503c77ab5ac4dfd377cb0a9&fields=main";
+                "?access_key=yourApiKey&fields=main";
         RestTemplate restTemplate = new RestTemplate();
 
 
