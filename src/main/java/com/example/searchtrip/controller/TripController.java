@@ -37,4 +37,24 @@ public class TripController {
 
         return response.getBody();
     }
+
+    @GetMapping("find")
+    @ResponseBody
+    public String getTrip(@RequestParam("input") String input) {
+
+        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
+        builder
+                .append("input=").append(input)
+                .append("&format=").append("json")//"740000001"
+                //.append("&destId=").append(destId) //"740000003"
+                //.append("&passlist=").append("true")
+                .append("&accessId=").append("API_KEY");
+
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
+
+
+        return response.getBody();
+    }
+
 }

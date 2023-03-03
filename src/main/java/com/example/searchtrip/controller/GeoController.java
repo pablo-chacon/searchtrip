@@ -29,7 +29,7 @@ public class GeoController {
                 .append("text=").append(name) //"740000001"
                 .append("&country=").append("sweden")
                 .append("&format=").append("json")
-                .append("&apiKey=").append("YOUR-API-KEY");
+                .append("&apiKey=").append("Api_KEY");
                 // Struggling with filtration currently.
 
         ResponseEntity<String> response = restTemplate
@@ -37,7 +37,7 @@ public class GeoController {
 
         return response.getBody();
     }
-
+/*
     @GetMapping("lat")
     @ResponseBody
     private String getLat() throws UnknownHostException {
@@ -62,7 +62,7 @@ public class GeoController {
         return restTemplate.getForObject(uri, String.class);
     }
 
-
+*/
     //&fields=longitude
 
 
