@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 
-
+/*
 @Service
 public class GeoIpService {
 
@@ -34,4 +34,6 @@ public class GeoIpService {
             return new GeoIP(ip, cityName, latitude, longitude);
         }
 }
+
+*/
 
