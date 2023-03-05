@@ -21,7 +21,7 @@ public class TripController {
 
     @GetMapping("route")
     @ResponseBody
-    public String getTrip(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+    public String getDest(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
@@ -38,17 +38,35 @@ public class TripController {
         return response.getBody();
     }
 
-    @GetMapping("find")
+
+    //Find origin by name.
+    @GetMapping("fromOrigin")
     @ResponseBody
-    public String getTrip(@RequestParam("input") String input) {
+    public String getOrigin(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
                 .append("input=").append(input)
-                .append("&format=").append("json")//"740000001"
-                //.append("&destId=").append(destId) //"740000003"
-                //.append("&passlist=").append("true")
-                .append("&accessId=").append("API_KEY");
+                .append("&format=").append("json")
+                .append("&accessId=").append("YOUR-API-KEY");
+
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
+
+
+        return response.getBody();
+    }
+
+    // Find destination by name.
+    @GetMapping("toDestination")
+    @ResponseBody
+    public String getDest(@RequestParam("input") String input) {
+
+        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
+        builder
+                .append("input=").append(input)
+                .append("&format=").append("json")
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);

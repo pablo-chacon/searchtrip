@@ -7,9 +7,10 @@ import lombok.Data;
 public class FindTrip {
 
     public String id;
-    public String city;
-    public String originLat, originLong;
-    public String destLat, destLong;
+
+    public String origin;
+
+    public String destination;
     public String stops;
 
 
