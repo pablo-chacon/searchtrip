@@ -4,10 +4,7 @@ package com.example.searchtrip.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -21,7 +18,7 @@ public class TripController {
 
     @GetMapping("route")
     @ResponseBody
-    public String getDest(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+    public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
@@ -29,15 +26,13 @@ public class TripController {
                 .append("&originId=").append(originId) //"740000001"
                 .append("&destId=").append(destId) //"740000003"
                 .append("&passlist=").append("true")
-                .append("&accessId=").append("YOUR-API-KEY");
+                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
-
         return response.getBody();
     }
-
 
     //Find origin by name.
     @GetMapping("fromOrigin")
@@ -48,7 +43,7 @@ public class TripController {
         builder
                 .append("input=").append(input)
                 .append("&format=").append("json")
-                .append("&accessId=").append("YOUR-API-KEY");
+                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -60,7 +55,7 @@ public class TripController {
     // Find destination by name.
     @GetMapping("toDestination")
     @ResponseBody
-    public String getDest(@RequestParam("input") String input) {
+    public String getRoute(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
