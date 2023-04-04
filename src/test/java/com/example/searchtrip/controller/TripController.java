@@ -1,11 +1,14 @@
 package com.example.searchtrip.controller;
 
 
+import com.example.searchtrip.model.FindTrip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 
 @Controller
@@ -14,6 +17,10 @@ public class TripController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private List<FindTrip> favoriteTrips = List.of(
+            new FindTrip()
+    );
 
 
     @GetMapping("route")
@@ -34,10 +41,11 @@ public class TripController {
         return response.getBody();
     }
 
-    //Find origin by name.
+    //Find origin by name. Free search utilizing "res-robot".
+    @PostMapping("fromOrigin/{input}")
     @GetMapping("fromOrigin")
     @ResponseBody
-    public String getOrigin(@RequestParam("input") String input) {
+    public String getOrigin(@RequestParam("input") @PathVariable String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -53,6 +61,7 @@ public class TripController {
     }
 
     // Find destination by name.
+    @PostMapping("toDestination/{input}")
     @GetMapping("toDestination")
     @ResponseBody
     public String getRoute(@RequestParam("input") String input) {
