@@ -1,12 +1,12 @@
 package com.example.searchtrip.db;
+/*
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
 
 public class GeoIpDb {
 
@@ -39,5 +39,7 @@ public class GeoIpDb {
         String state = response.getLeastSpecificSubdivision().getName();
     }
 }
+
+ */
 
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 @Data
-public class TripDetails  {
+public class TripDetails {
 
     @JsonAlias("StopLocation")
     private FindTrip[] stopLocation;
