@@ -27,8 +27,8 @@ public class SearchtripApplication {
     public OncePerRequestFilter authFilter() {
         return new OncePerRequestFilter() {
             @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain filterChain) throws ServletException, IOException {
+            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+                    throws ServletException, IOException {
 
                 if(request.getMethod().equals("OPTIONS")) {
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -56,6 +56,7 @@ public class SearchtripApplication {
             }
         };
     }
+
 
     @Bean
     public RestTemplate restTemplate() {
