@@ -1,25 +1,22 @@
-package com.example.searchtrip.repository;
+package com.example.searchtrip.repository;/*
 
-
-import com.example.searchtrip.model.TripDetails;
+/*
+import com.example.searchtrip.model.FindTrip;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Repository
-public class TripRepository {
+public class TripRepository extends JpaRepository<FindTrip, Long> {
 
 
-    TripDetails tripDetails;
-    public List<TripDetails> tripDetailsList = new ArrayList<>();
-
-
-    public List<TripDetails> addNewLocation(TripDetails tripDetails) {
-        tripDetailsList.add(tripDetails);
-        return tripDetailsList;
-    }
+    List<FindTrip> findByOrigin(String origin);
+    List<FindTrip> findByDestination (String destination);
+    List<FindTrip> findByFavorite(boolean b);
+    List<FindTrip> findByOriginDestination(String origin, String destination);
 
 
 }
+*/
