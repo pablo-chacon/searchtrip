@@ -105,5 +105,10 @@ public class TripController {
 
         return response.getBody();
     }
+
+    @PostMapping("/complaint")
+    public void addComplaint(@RequestParam String complaint) {
+        System.out.println(complaint);
+    }
 }
 
