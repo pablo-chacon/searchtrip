@@ -85,7 +85,7 @@ public class TripController {
         return ResponseEntity.ok("Destination added successfully");
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/")
     @ResponseBody
     public String searchTrip() {
         if (routes.isEmpty()) {
@@ -106,9 +106,6 @@ public class TripController {
         return response.getBody();
     }
 
-    @PostMapping("/complaint")
-    public void addComplaint(@RequestParam String complaint) {
-        System.out.println(complaint);
-    }
+
 }
 
