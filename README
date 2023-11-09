@@ -1,3 +1,5 @@
 1. JWT authentication.
 2. Make API calls to resrobot to fetch realtime routes.
 3. Save resrobot endpoint as a string.
+
+API responses is found under resources folder.
