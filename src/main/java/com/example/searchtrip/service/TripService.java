@@ -3,8 +3,6 @@ package com.example.searchtrip.service;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -16,20 +14,14 @@ public class TripService {
     private List<String> complaints;
 
 
-    public TripService() {
-        this.favoriteList = new ArrayList<>();
-        this.complaints = new ArrayList<>();
-    }
-
-
     public List<String> addFavorite(String name) {
-        favoriteList.add(String.valueOf(new HashMap<>()));
+        favoriteList.add(name);
         return favoriteList;
     }
 
     /**
-     * Removes favorite list from the favoriteLists HashMap.
-     * @param favorite The name of the favorite list to be removed.
+     * Removes favorite..
+     * @param favorite name of favorite to be removed.
      */
     public void removeFavorite(String favorite) {
         favoriteList.remove(favorite);
@@ -40,7 +32,7 @@ public class TripService {
      * @param favorite The name of the favorite list to add the favorite to.
      * @param newFavorite The favorite to add to the favorite list.
      */
-    public void updateFavoriteList(String favorite, String newFavorite) {
+    public void updateFavorite(String favorite, String newFavorite) {
         favoriteList.remove(favorite);
         favoriteList.add(newFavorite);
     }
@@ -53,6 +45,10 @@ public class TripService {
     public String addComplaint(String topic, String description) {
         complaints.add(topic + "\n" + description);
         return "Complaint registered.";
+    }
+
+    public List<String> getComplaints() {
+        return complaints;
     }
 }
 

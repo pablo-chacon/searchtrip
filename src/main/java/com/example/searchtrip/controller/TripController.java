@@ -215,15 +215,25 @@ public class TripController {
         return response.getBody();
     }
 
+    @PutMapping("/updateFavorite/{id}")
+    public void updateFavorite(@RequestParam("id") String id, @RequestParam("name") String name) {
+
+        tripService.updateFavorite(id, String.valueOf(searchHistory.containsKey(name)));
+    }
     @PostMapping("/favorite/{name}")
     public String addFavorite(@RequestParam("name") String name) {
 
-        return tripService.addFavorite(searchHistory.get(name)).toString();
+        return tripService.addFavorite(String.valueOf(searchHistory.containsKey(name))).toString();
     }
     @PostMapping("/complaint")
     public String addComplaint(@RequestParam("topic") String topic, @RequestParam("description") String description) {
 
         return tripService.addComplaint(topic, description);
+    }
+
+    @GetMapping("/complaints")
+    public List<String> getComplaints() {
+        return tripService.getComplaints();
     }
 
 }
