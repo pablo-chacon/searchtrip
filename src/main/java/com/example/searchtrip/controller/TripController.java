@@ -128,7 +128,6 @@ import com.example.searchtrip.model.Location;
 import com.example.searchtrip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -136,7 +135,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/api/*")
 public class TripController {
 
@@ -147,10 +146,9 @@ public class TripController {
     private RestTemplate restTemplate;
 
     HashMap<String, String> searchHistory = new HashMap<>();
-    @GetMapping("/")
-    public String getRoutes() {
-        System.out.println("Search history:");
-        return String.valueOf(searchHistory);
+    @GetMapping
+    public void getRoutes() {
+        System.out.println("Search history:" + searchHistory.toString());
     }
 
     @GetMapping("favorites")
