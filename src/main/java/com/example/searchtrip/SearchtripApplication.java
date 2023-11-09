@@ -33,7 +33,7 @@ public class SearchtripApplication {
                 if(request.getMethod().equals("OPTIONS")) {
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
-                else if(!request.getServletPath().contains("search")) {
+                else if(!request.getServletPath().contains("api")) {
                     filterChain.doFilter(request, response);
                 }
                 else {

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class LocationDetails {
 
+
     @JsonAlias("StopLocation")
     private Location[] stopLocation;
 

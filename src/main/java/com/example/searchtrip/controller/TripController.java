@@ -153,13 +153,13 @@ public class TripController {
         return String.valueOf(searchHistory);
     }
 
-    @GetMapping("/favorites")
+    @GetMapping("favorites")
     public List<String> getFavorites() {
         System.out.println("Favorites:");
         return tripService.getAllFavorites();
     }
 
-    @GetMapping("/route/{origin}/{destination}")
+    @GetMapping("route/{origin}/{destination}")
     @ResponseBody
     public String getRoute(@RequestParam("/origin") Location origin, @RequestParam("/destination") Location destination) {
 
@@ -179,8 +179,8 @@ public class TripController {
     }
 
     //Find origin by name. Free search utilizing "res-robot".
-    @PostMapping("/origin/{name}")
-    @GetMapping("/origin")
+    @PostMapping("origin/{name}")
+    @GetMapping("origin")
     @ResponseBody
     public String getOrigin(@RequestParam("name") String name) {
 
@@ -197,8 +197,8 @@ public class TripController {
     }
 
     // Find destination by name.
-    @PostMapping("/destination/{name}")
-    @GetMapping("/destination")
+    @PostMapping("destination/{name}")
+    @GetMapping("destination")
     @ResponseBody
     public String getDestination(@RequestParam("name") String name) {
 
@@ -215,23 +215,28 @@ public class TripController {
         return response.getBody();
     }
 
-    @PutMapping("/updateFavorite/{id}")
+    @PutMapping("updateFavorite/{id}")
     public void updateFavorite(@RequestParam("id") String id, @RequestParam("name") String name) {
 
         tripService.updateFavorite(id, String.valueOf(searchHistory.containsKey(name)));
     }
-    @PostMapping("/favorite/{name}")
+    @PostMapping("favorite/{name}")
     public String addFavorite(@RequestParam("name") String name) {
 
         return tripService.addFavorite(String.valueOf(searchHistory.containsKey(name))).toString();
     }
-    @PostMapping("/complaint")
+
+    @DeleteMapping("favorite/{id}")
+    public void removeFavorite(@RequestParam("id") String id) {
+        tripService.removeFavorite(id);
+    }
+    @PostMapping("complaint")
     public String addComplaint(@RequestParam("topic") String topic, @RequestParam("description") String description) {
 
         return tripService.addComplaint(topic, description);
     }
 
-    @GetMapping("/complaints")
+    @GetMapping("complaints")
     public List<String> getComplaints() {
         return tripService.getComplaints();
     }

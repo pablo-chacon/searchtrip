@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 public class JwtUtil {
-
+    //esomatsaebueogtdcreawutthepasareawooandltetoohefoyareesoetsnotrgetabosomawetrrotsm
     static final String SECRET_KEY = "catsareawesomebutdogsareawesometooandletsnotforgetabouttheparrotstheyareawesometoo";
     static final long EXPIRE_IN = 1000 * 60 * 60; // 1h
 
