@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 
+
 public class JwtUtil {
 
     static final String SECRET_KEY = "catsareawesomebutdogsareawesometooandletsnotforgetabouttheparrotstheyareawesometoo";

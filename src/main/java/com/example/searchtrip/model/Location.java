@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class FindTrip {
+public class Location {
 
     @Id
     @GeneratedValue
@@ -20,6 +20,8 @@ public class FindTrip {
     public String name;
     public String lat;
     public String lon;
+    public String time;
+    public String date;
     public String stops;
 
 }
