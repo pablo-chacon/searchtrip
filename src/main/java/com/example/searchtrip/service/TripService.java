@@ -1,5 +1,5 @@
 package com.example.searchtrip.service;
-
+/*
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class TripService {
      * Removes favorite..
      * @param favorite name of favorite to be removed.
      */
-    public void removeFavorite(String favorite) {
+  /*  public void removeFavorite(String favorite) {
         favoriteList.remove(favorite);
     }
 
@@ -32,7 +32,7 @@ public class TripService {
      * @param favorite The name of the favorite list to add the favorite to.
      * @param newFavorite The favorite to add to the favorite list.
      */
-    public void updateFavorite(String favorite, String newFavorite) {
+   /* public void updateFavorite(String favorite, String newFavorite) {
         favoriteList.remove(favorite);
         favoriteList.add(newFavorite);
     }
@@ -52,3 +52,4 @@ public class TripService {
     }
 }
 
+    */

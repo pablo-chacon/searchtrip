@@ -1,74 +1,97 @@
 package com.example.searchtrip.controller;
-/*
+
+
+import com.example.searchtrip.model.Complaint;
 import com.example.searchtrip.model.Location;
-import com.example.searchtrip.model.SearchRoute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 public class TripController {
 
 
     @Autowired
     RestTemplate restTemplate;
-    public SearchRoute searchRoute;
-    private List<SearchRoute> routes = new ArrayList<>();
-    private List<String> favorites = new ArrayList<>();
+    public Complaint complaint;
+    public Location location;
+    public HashMap<String, Location> locations = new HashMap<>();
+    public List<String> favorites = new ArrayList<>();
+    public List<Complaint> complaints = new ArrayList<>();
 
-    @GetMapping("/")
-    public ResponseEntity<List<SearchRoute>> getRoutes() {
-        System.out.println(routes);
-        return ResponseEntity.ok(routes);
+    @GetMapping
+    public String getRoutes() {
+        return "Search history:" + locations.toString();
     }
 
-    @GetMapping("/favorites")
-    public void getFavorites() {
-        System.out.println(favorites);
+    @GetMapping("favorites")
+    public String getFavorites() {
+        return "Favorites:" + favorites.toString();
     }
 
-    //@PostMapping("/route/{originId}/{destinationId}")
-    @GetMapping("/addFavorite")
-    @ResponseBody
+    @PutMapping("updateFavorite/{id}")
+    public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
+        favorites.remove(id);
+        favorites.add(Integer.parseInt(id), getRoute(locations.get(name).extId, locations.get(name).extId));
+
+    }
+    @GetMapping("addfavorite")
     public void addFavorite() {
+        String route = String.valueOf(getRoute(location.extId, location.extId));
+        favorites.add(route);
+    }
+
+    @DeleteMapping("favorite/{id}")
+    public void removeFavorite(@RequestParam("id") String id) {
+        favorites.remove(id);
+    }
+
+    @GetMapping("complaints")
+    public List<Complaint> getComplaints() {
+        System.out.println("Your complaints: ");
+        return complaints;
+    }
+
+    @PostMapping("complaint/{topic}/{description}")
+    public List<Complaint> addComplaint(@RequestParam("topic") String topic,
+                                     @RequestParam("description") String description) {
+        complaint.setHead(topic);
+        complaint.setBody(description);
+        complaints.add(complaint);
+
+        return complaints;
+    }
+
+    @GetMapping("route")
+    @ResponseBody
+    public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(searchRoute.getOriginId())
-                .append("&destId=").append(searchRoute.getDestinationId())
+                .append("&originId=").append(originId) //"740000001"
+                .append("&destId=").append(destId) //"740000003"
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
-        String favoriteEndpoint = builder.toString();
-        favorites.add(favoriteEndpoint);
-        System.out.println(favorites);
-    }
-
-    @GetMapping("/refresh/{id}")
-    public String refreshFavorite(@RequestParam String id) {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(favorites.get(Integer.valueOf(id)).toString(), String.class);
+                .getForEntity(builder.toString(), String.class);
 
-        return  response.getBody();
-    }
-
-    @DeleteMapping("/removeFavorite/{id}")
-    public void removeFavorite(@RequestParam int id) {
-        favorites.remove(id);
-        System.out.println("Favorite removed");
+        return response.getBody();
     }
 
     //Find origin by name. Free search utilizing "res-robot".
-    @PostMapping("fromOrigin/{name}")
+    @PostMapping("fromOrigin/{input}")
     @GetMapping("fromOrigin")
     @ResponseBody
-    public String getOrigin(@RequestParam("name") @PathVariable String input) {
+    public String getOrigin(@RequestParam("input") @PathVariable String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -84,10 +107,10 @@ public class TripController {
     }
 
     // Find destination by name.
-    @PostMapping("toDestination/{name}")
+    @PostMapping("toDestination/{input}")
     @GetMapping("toDestination")
     @ResponseBody
-    public String getRoute(@RequestParam("input") String input) {
+    public String getDestination(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -100,143 +123,6 @@ public class TripController {
 
 
         return response.getBody();
-    }
-
-    @GetMapping("/search/")
-    @ResponseBody
-    public String searchTrip() {
-
-
-        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
-        builder
-                .append("format=").append("json")
-                .append("&originId=").append(trip.getExtId())
-                .append("&destId=").append(trip.getExtId())
-                .append("&passlist=").append("true")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
-
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
-
-        return response.getBody();
-    }
-
-
-}*/
-
-import com.example.searchtrip.model.Location;
-import com.example.searchtrip.service.TripService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.List;
-
-
-@RestController
-@RequestMapping("/api/*")
-public class TripController {
-
-
-    @Autowired
-    TripService tripService;
-    @Autowired
-    private RestTemplate restTemplate;
-
-    HashMap<String, String> searchHistory = new HashMap<>();
-    @GetMapping
-    public void getRoutes() {
-        System.out.println("Search history:" + searchHistory.toString());
-    }
-
-    @GetMapping("favorites")
-    public List<String> getFavorites() {
-        System.out.println("Favorites:");
-        return tripService.getAllFavorites();
-    }
-
-    @GetMapping("route/{origin}/{destination}")
-    @ResponseBody
-    public String getRoute(@RequestParam("/origin") Location origin, @RequestParam("/destination") Location destination) {
-
-
-        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
-        builder
-                .append("format=").append("json")
-                .append("&originId=").append(getOrigin(origin.getExtId())) //Stockholm Central : "740000001"
-                .append("&destId=").append(getDestination(destination.getExtId())) //Malmö Central : "740000003"
-                .append("&passlist=").append("true")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
-
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
-        searchHistory.put(origin.getName(), builder.toString());
-        return response.getBody();
-    }
-
-    //Find origin by name. Free search utilizing "res-robot".
-    @PostMapping("origin/{name}")
-    @GetMapping("origin")
-    @ResponseBody
-    public String getOrigin(@RequestParam("name") String name) {
-
-        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
-        builder
-                .append("input=").append(name)
-                .append("&format=").append("json")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
-
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
-
-        return response.getBody();
-    }
-
-    // Find destination by name.
-    @PostMapping("destination/{name}")
-    @GetMapping("destination")
-    @ResponseBody
-    public String getDestination(@RequestParam("name") String name) {
-
-        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
-        builder
-                .append("input=").append(name)
-                .append("&format=").append("json")
-                .append("&accessId=").append(" 7a44df73-9725-4578-bed3-458c8586bcac ");
-
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
-        //tripService.searchDestination("destination", response.getBody());
-
-        return response.getBody();
-    }
-
-    @PutMapping("updateFavorite/{id}")
-    public void updateFavorite(@RequestParam("id") String id, @RequestParam("name") String name) {
-
-        tripService.updateFavorite(id, String.valueOf(searchHistory.containsKey(name)));
-    }
-    @PostMapping("favorite/{name}")
-    public String addFavorite(@RequestParam("name") String name) {
-
-        return tripService.addFavorite(String.valueOf(searchHistory.containsKey(name))).toString();
-    }
-
-    @DeleteMapping("favorite/{id}")
-    public void removeFavorite(@RequestParam("id") String id) {
-        tripService.removeFavorite(id);
-    }
-    @PostMapping("complaint")
-    public String addComplaint(@RequestParam("topic") String topic, @RequestParam("description") String description) {
-
-        return tripService.addComplaint(topic, description);
-    }
-
-    @GetMapping("complaints")
-    public List<String> getComplaints() {
-        return tripService.getComplaints();
     }
 
 }

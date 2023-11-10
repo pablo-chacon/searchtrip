@@ -9,7 +9,7 @@ public class Complaint {
 
     @Id
     @GeneratedValue
-    private String topic;
-    private String description;
+    private String head;
+    private String body;
 
 }

@@ -33,7 +33,7 @@ public class SearchtripApplication {
                 if(request.getMethod().equals("OPTIONS")) {
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
-                else if(!request.getServletPath().contains("api")) {
+                else if(!request.getServletPath().contains("api") && !request.getServletPath().contains("auth")) {
                     filterChain.doFilter(request, response);
                 }
                 else {
