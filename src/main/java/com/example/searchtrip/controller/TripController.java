@@ -79,7 +79,7 @@ public class TripController {
                 .append("&originId=").append(originId) //"740000001"
                 .append("&destId=").append(destId) //"740000003"
                 .append("&passlist=").append("true")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -97,7 +97,7 @@ public class TripController {
         builder
                 .append("input=").append(input)
                 .append("&format=").append("json")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
