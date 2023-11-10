@@ -40,17 +40,20 @@ public class TripController {
     public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
         favorites.remove(id);
         favorites.add(Integer.parseInt(id), getRoute(locations.get(name).extId, locations.get(name).extId));
+        System.out.println("Favorite updated.");
 
     }
     @GetMapping("addfavorite")
     public void addFavorite() {
         String route = String.valueOf(getRoute(location.extId, location.extId));
         favorites.add(route);
+        System.out.println("Favorite added.");
     }
 
     @DeleteMapping("favorite/{id}")
     public void removeFavorite(@RequestParam("id") String id) {
         favorites.remove(id);
+        System.out.println("Favorite removed.");
     }
 
     @GetMapping("complaints")
@@ -91,7 +94,7 @@ public class TripController {
     @PostMapping("fromOrigin/{input}")
     @GetMapping("fromOrigin")
     @ResponseBody
-    public String getOrigin(@RequestParam("input") @PathVariable String input) {
+    public Location getOrigin(@RequestParam("input") @PathVariable String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -99,9 +102,10 @@ public class TripController {
                 .append("&format=").append("json")
                 .append("&accessId=").append("YOUR-API-KEY");
 
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
+        ResponseEntity<Location> response = restTemplate
+                .getForEntity(builder.toString(), Location.class);
 
+        locations.put(input, response.getBody());
 
         return response.getBody();
     }
@@ -110,7 +114,7 @@ public class TripController {
     @PostMapping("toDestination/{input}")
     @GetMapping("toDestination")
     @ResponseBody
-    public String getDestination(@RequestParam("input") String input) {
+    public Location getDestination(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -118,9 +122,10 @@ public class TripController {
                 .append("&format=").append("json")
                 .append("&accessId=").append("YOUR-API-KEY");
 
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(builder.toString(), String.class);
+        ResponseEntity<Location> response = restTemplate
+                .getForEntity(builder.toString(), Location.class);
 
+        locations.put(input, response.getBody());
 
         return response.getBody();
     }
