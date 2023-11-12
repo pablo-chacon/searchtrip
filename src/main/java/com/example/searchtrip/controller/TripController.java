@@ -29,7 +29,6 @@ public class TripController {
     public List<Complaint> complaints = new ArrayList<>();
 
 
-
     @GetMapping
     public String getRoutes() {
         return "Search history:" + locations.toString();
@@ -40,58 +39,9 @@ public class TripController {
         return favorites;
     }
 
-    @GetMapping("addfavorite")
-    @ResponseBody
-    public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
-
-        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
-        builder
-                .append("format=").append("json")
-                .append("&originId=").append(originId) //"740000001"
-                .append("&destId=").append(destId) //"740000003"
-                .append("&passlist=").append("true")
-                .append("&accessId=").append("YOUR-API-KEY");
-        favorites.add(builder.toString());
-        System.out.println("Favorite added.");
-    }
-
-    @PutMapping("updateFavorite/{id}")
-    public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
-        favorites.remove(id);
-        favorites.add(Integer.parseInt(id), getRoute(locations.get(name).extId, locations.get(name).extId));
-        System.out.println("Favorite updated.");
-
-    }
-
-    @DeleteMapping("favorite/{id}")
-    public void removeFavorite(@RequestParam("id") String id) {
-        favorites.remove(id);
-        System.out.println("Favorite removed.");
-    }
-
-    @GetMapping("favorite/{id}")
-    public String getFavorite(@RequestParam("id") String id) {
-        String favorite = favorites.get(Integer.parseInt(id));
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(favorite, String.class);
-
-        return response.getBody();
-
-    }
-
     @GetMapping("complaints")
     public List<Complaint> getComplaints() {
         System.out.println("Your complaints: ");
-        return complaints;
-    }
-
-    @PostMapping("complaint/{topic}/{description}")
-    public List<Complaint> addComplaint(@RequestParam("topic") String topic,
-                                     @RequestParam("description") String description) {
-        complaint.setHead(topic);
-        complaint.setBody(description);
-        complaints.add(complaint);
-
         return complaints;
     }
 
@@ -122,7 +72,7 @@ public class TripController {
     /**
      * Get route from current location to destination.
      * @param destId
-     * @return
+     * @return response body.
      */
     @GetMapping("route/here/{destId}")
     @ResponseBody
@@ -144,7 +94,11 @@ public class TripController {
         return response.getBody();
     }
 
-    //Find origin by name. Free search utilizing "res-robot".
+    /**
+     *
+     * @param origin
+     * @return
+     */
     @PostMapping("fromOrigin/{origin}")
     @GetMapping("fromOrigin/{origin}")
     @ResponseBody
@@ -164,9 +118,13 @@ public class TripController {
         return response.getBody();
     }
 
-    // Find destination by name.
+    /**
+     *
+     * @param destination
+     * @return
+     */
     @PostMapping("toDestination/{destination}")
-    @GetMapping("toDestination")
+    @GetMapping("toDestination/{destination}")
     @ResponseBody
     public Location getDestination(@RequestParam("destination") String destination) {
 
@@ -184,6 +142,10 @@ public class TripController {
         return response.getBody();
     }
 
+    /**
+     * Get current location.
+     * @return response body.
+     */
     @GetMapping("location")
     @ResponseBody
     private String getLocation(@RequestParam("text") String name) throws UnknownHostException {
@@ -211,7 +173,6 @@ public class TripController {
     @GetMapping("distance/{destination}/{mode}")
     public String getDistance(@RequestParam("mode") String mode, @RequestParam("destination") String destination) {
         // 50.96209827745463%2C4.414458883409225%7C50.429137079078345%2C5.00088081232559
-
         StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/routing?" );
         builder
                 .append("waypoints=").append(geoIP.getLatitude() + "." + geoIP.getLongitude() +
@@ -222,5 +183,54 @@ public class TripController {
                 .getForEntity(builder.toString(), String.class);
         return response.getBody();
     }
+
+    @GetMapping("addfavorite/{originId}/{destId}")
+    @ResponseBody
+    public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+
+        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
+        builder
+                .append("format=").append("json")
+                .append("&originId=").append(originId)
+                .append("&destId=").append(destId)
+                .append("&passlist=").append("true")
+                .append("&accessId=").append("YOUR-API-KEY");
+        favorites.add(builder.toString());
+        System.out.println("Favorite added.");
+    }
+
+    @PutMapping("updateFavorite/{id}")
+    public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
+        favorites.remove(id);
+        favorites.add(Integer.parseInt(id), getRoute(locations.get(name).extId, locations.get(name).extId));
+        System.out.println("Favorite updated.");
+
+    }
+
+    @DeleteMapping("favorite/{id}")
+    public void removeFavorite(@RequestParam("id") String id) {
+        favorites.remove(id);
+        System.out.println("Favorite removed.");
+    }
+
+    @GetMapping("favorite/{id}")
+    public String getFavorite(@RequestParam("id") String id) {
+        String favorite = favorites.get(Integer.parseInt(id));
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(favorite, String.class);
+
+        return response.getBody();
+    }
+
+    @PostMapping("complaint/{topic}/{description}")
+    public List<Complaint> addComplaint(@RequestParam("topic") String topic,
+                                        @RequestParam("description") String description) {
+        complaint.setHead(topic);
+        complaint.setBody(description);
+        complaints.add(complaint);
+
+        return complaints;
+    }
+
 }
 

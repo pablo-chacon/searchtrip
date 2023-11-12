@@ -1,5 +1,5 @@
 package com.example.searchtrip.controller;
-
+/*
 import com.example.searchtrip.model.GeoIP;
 import com.example.searchtrip.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,11 @@ public class GeoController {
      * @param mode
      * @return
      */
-    @GetMapping("distance/{mode}")
+/*
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@GetMapping("distance/{mode}")
     public String getDistance(@RequestParam("mode") String mode) {
         // 50.96209827745463%2C4.414458883409225%7C50.429137079078345%2C5.00088081232559
         StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/routing?" );
@@ -65,4 +69,5 @@ public class GeoController {
 
 
 }
+*/
 
