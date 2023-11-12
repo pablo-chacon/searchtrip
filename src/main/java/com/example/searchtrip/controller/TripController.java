@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +22,7 @@ public class TripController {
     @Autowired
     RestTemplate restTemplate;
 
-
-    public boolean isFavorite;
     public Complaint complaint;
-    public Location location;
     public GeoIP geoIP;
     public HashMap<String, Location> locations = new HashMap<>();
     public List<String> favorites = new ArrayList<>();
@@ -42,19 +40,27 @@ public class TripController {
         return favorites;
     }
 
+    @GetMapping("addfavorite")
+    @ResponseBody
+    public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+
+        StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
+        builder
+                .append("format=").append("json")
+                .append("&originId=").append(originId) //"740000001"
+                .append("&destId=").append(destId) //"740000003"
+                .append("&passlist=").append("true")
+                .append("&accessId=").append("YOUR-API-KEY");
+        favorites.add(builder.toString());
+        System.out.println("Favorite added.");
+    }
+
     @PutMapping("updateFavorite/{id}")
     public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
         favorites.remove(id);
         favorites.add(Integer.parseInt(id), getRoute(locations.get(name).extId, locations.get(name).extId));
         System.out.println("Favorite updated.");
 
-    }
-    @GetMapping("addfavorite")
-    public void addFavorite() {
-
-        String route = getRoute(location.extId, location.extId);
-        favorites.add(route);
-        System.out.println("Favorite added.");
     }
 
     @DeleteMapping("favorite/{id}")
@@ -67,7 +73,7 @@ public class TripController {
     public String getFavorite(@RequestParam("id") String id) {
         String favorite = favorites.get(Integer.parseInt(id));
         ResponseEntity<String> response = restTemplate
-                .getForEntity(favorite.toString(), String.class);
+                .getForEntity(favorite, String.class);
 
         return response.getBody();
 
@@ -89,6 +95,12 @@ public class TripController {
         return complaints;
     }
 
+    /**
+     * Get route from origin to destination.
+     * @param originId
+     * @param destId
+     * @return
+     */
     @GetMapping("route/{originId}/{destination}")
     @ResponseBody
     public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
@@ -96,8 +108,8 @@ public class TripController {
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(originId) //"740000001"
-                .append("&destId=").append(destId) //"740000003"
+                .append("&originId=").append(originId)
+                .append("&destId=").append(destId)
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("YOUR-API-KEY");
 
@@ -107,15 +119,22 @@ public class TripController {
         return response.getBody();
     }
 
-    @GetMapping("route")
+    /**
+     * Get route from current location to destination.
+     * @param destId
+     * @return
+     */
+    @GetMapping("route/here/{destId}")
     @ResponseBody
     public String getRouteFromCurrentLocation(@RequestParam("destId") String destId) {
+
         String originId = geoIP.getLatitude() + "," + geoIP.getLongitude();
+
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(originId) //"740000001"
-                .append("&destId=").append(destId) //"740000003"
+                .append("&originId=").append(originId)
+                .append("&destId=").append(destId)
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("YOUR-API-KEY");
 
@@ -127,7 +146,7 @@ public class TripController {
 
     //Find origin by name. Free search utilizing "res-robot".
     @PostMapping("fromOrigin/{origin}")
-    @GetMapping("fromOrigin")
+    @GetMapping("fromOrigin/{origin}")
     @ResponseBody
     public Location getOrigin(@RequestParam("origin") String origin) {
 
@@ -151,7 +170,6 @@ public class TripController {
     @ResponseBody
     public Location getDestination(@RequestParam("destination") String destination) {
 
-
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
                 .append("input=").append(destination)
@@ -166,5 +184,43 @@ public class TripController {
         return response.getBody();
     }
 
+    @GetMapping("location")
+    @ResponseBody
+    private String getLocation(@RequestParam("text") String name) throws UnknownHostException {
+
+        StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/geocode/search?" );
+        builder
+                .append("text=").append(name)
+                .append("&country=").append("sweden")
+                .append("&format=").append("json")
+                .append("&apiKey=").append("Api_KEY");
+
+
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
+
+        return response.getBody();
+    }
+
+    /**
+     * Get distance from current location to destination.
+     * @param mode
+     * @param destination
+     * @return response body.
+     */
+    @GetMapping("distance/{destination}/{mode}")
+    public String getDistance(@RequestParam("mode") String mode, @RequestParam("destination") String destination) {
+        // 50.96209827745463%2C4.414458883409225%7C50.429137079078345%2C5.00088081232559
+
+        StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/routing?" );
+        builder
+                .append("waypoints=").append(geoIP.getLatitude() + "." + geoIP.getLongitude() +
+                        "." + locations.get(destination).getLat() + "." + locations.get(destination).getLon())
+                .append("&mode=").append(mode)
+                .append("&apiKey=").append("YOUR-API-KEY");
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
+        return response.getBody();
+    }
 }
 
