@@ -36,8 +36,5 @@ public class UserController {
       return ResponseEntity.status(400).body("Malformed token.");
     }
   }
-
-
-
 }
 

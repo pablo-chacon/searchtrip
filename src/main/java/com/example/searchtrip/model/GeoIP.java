@@ -14,6 +14,7 @@ public class GeoIP {
     private String cityName;
     private String latitude;
     private String longitude;
+    private String mode;
 
 
 }

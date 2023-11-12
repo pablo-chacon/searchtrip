@@ -51,6 +51,7 @@ public class TripController {
      * @param destId
      * @return
      */
+    @PostMapping("route/{originId}/{destId}")
     @GetMapping("route/{originId}/{destination}")
     @ResponseBody
     public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
@@ -74,6 +75,7 @@ public class TripController {
      * @param destId
      * @return response body.
      */
+    @PostMapping("route/here/{destId}")
     @GetMapping("route/here/{destId}")
     @ResponseBody
     public String getRouteFromCurrentLocation(@RequestParam("destId") String destId) {
@@ -146,7 +148,8 @@ public class TripController {
      * Get current location.
      * @return response body.
      */
-    @GetMapping("location")
+    @PostMapping("currentlocation")
+    @GetMapping("currentlocation")
     @ResponseBody
     private String getLocation(@RequestParam("text") String name) throws UnknownHostException {
 
@@ -166,11 +169,13 @@ public class TripController {
 
     /**
      * Get distance from current location to destination.
-     * @param mode
+     * @param mode of transportation. drive/walk/bicycle
      * @param destination
      * @return response body.
      */
+    @PostMapping("distance/{destination}/{mode}")
     @GetMapping("distance/{destination}/{mode}")
+    @ResponseBody
     public String getDistance(@RequestParam("mode") String mode, @RequestParam("destination") String destination) {
         // 50.96209827745463%2C4.414458883409225%7C50.429137079078345%2C5.00088081232559
         StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/routing?" );
@@ -184,6 +189,7 @@ public class TripController {
         return response.getBody();
     }
 
+    @PostMapping("addfavorite/{origin}/{destination}")
     @GetMapping("addfavorite/{originId}/{destId}")
     @ResponseBody
     public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
@@ -214,6 +220,7 @@ public class TripController {
     }
 
     @GetMapping("favorite/{id}")
+    @ResponseBody
     public String getFavorite(@RequestParam("id") String id) {
         String favorite = favorites.get(Integer.parseInt(id));
         ResponseEntity<String> response = restTemplate
@@ -223,6 +230,7 @@ public class TripController {
     }
 
     @PostMapping("complaint/{topic}/{description}")
+    @ResponseBody
     public List<Complaint> addComplaint(@RequestParam("topic") String topic,
                                         @RequestParam("description") String description) {
         complaint.setHead(topic);
