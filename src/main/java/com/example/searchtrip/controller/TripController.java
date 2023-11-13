@@ -46,20 +46,21 @@ public class TripController {
 
     /**
      * Get route from origin to destination.
-     * @param originId
-     * @param destId
+     *
+     * @param origin
+     * @param destination
      * @return
      */
-    @PostMapping("route/{originId}/{destId}")
+    @PostMapping("route/{origin}/{destination}")
     @GetMapping("route/{originId}/{destination}")
     @ResponseBody
-    public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+    public String getRoute(@RequestParam("origin") String origin, @RequestParam("destination") String destination) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(originId)
-                .append("&destId=").append(destId)
+                .append("&originId=").append(locations.get(origin).extId)
+                .append("&destId=").append(locations.get(destination).extId)
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("YOUR-API-KEY");
 
@@ -71,13 +72,13 @@ public class TripController {
 
     /**
      * Get route from current location to destination.
-     * @param destId
+     * @param destination
      * @return response body.
      */
     @PostMapping("route/location/{destId}")
     @GetMapping("route/location/{destId}")
     @ResponseBody
-    public String getRouteFromCurrentLocation(@RequestParam("destId") String destId) {
+    public String getRouteFromCurrentLocation(@RequestParam("destId") String destination) {
 
         String originId = geoIP.getLatitude() + "," + geoIP.getLongitude();
 
@@ -85,7 +86,7 @@ public class TripController {
         builder
                 .append("format=").append("json")
                 .append("&originId=").append(originId)
-                .append("&destId=").append(destId)
+                .append("&destId=").append(locations.get(destination).extId)
                 .append("&passlist=").append("true")
                 .append("originWalk=").append("1,0,5000,50")
                 .append("destwalk=").append("1,0,5000,50")
@@ -103,7 +104,7 @@ public class TripController {
      * @return
      */
     @PostMapping("fromOrigin/{origin}")
-    @GetMapping("fromOrigin/{origin}")
+    @GetMapping("route/{origin}")
     @ResponseBody
     public Location getOrigin(@RequestParam("origin") String origin) {
 
@@ -122,12 +123,12 @@ public class TripController {
     }
 
     /**
-     *
      * @param destination
+     * @param origin
      * @return
      */
     @PostMapping("toDestination/{destination}")
-    @GetMapping("toDestination/{destination}")
+    @GetMapping("route/{destination}")
     @ResponseBody
     public Location getDestination(@RequestParam("destination") String destination) {
 
