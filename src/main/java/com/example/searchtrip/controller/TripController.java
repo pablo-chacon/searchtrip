@@ -46,7 +46,6 @@ public class TripController {
 
     /**
      * Get route from origin to destination.
-     *
      * @param origin
      * @param destination
      * @return
@@ -124,8 +123,7 @@ public class TripController {
 
     /**
      * @param destination
-     * @param origin
-     * @return
+     * @return response body.
      */
     @PostMapping("toDestination/{destination}")
     @GetMapping("route/{destination}")
