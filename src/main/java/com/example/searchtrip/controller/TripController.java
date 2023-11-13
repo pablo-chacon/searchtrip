@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +98,6 @@ public class TripController {
     }
 
     /**
-     *
      * @param origin
      * @return
      */
@@ -123,7 +121,6 @@ public class TripController {
     }
 
     /**
-     *
      * @param destination
      * @return
      */
@@ -146,6 +143,10 @@ public class TripController {
         return response.getBody();
     }
 
+    /**
+     * Get nearby stops.
+     * @return response body.
+     */
     @PostMapping("nearbystops")
     @GetMapping("nearbystops")
     @ResponseBody
@@ -173,7 +174,7 @@ public class TripController {
     @PostMapping("currentlocation")
     @GetMapping("currentlocation")
     @ResponseBody
-    private String getLocation(@RequestParam("text") String name) throws UnknownHostException {
+    private String getLocation(@RequestParam("text") String name) {
 
         StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/geocode/search?" );
         builder
@@ -181,7 +182,6 @@ public class TripController {
                 .append("&country=").append("sweden")
                 .append("&format=").append("json")
                 .append("&apiKey=").append("Api_KEY");
-
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -211,22 +211,49 @@ public class TripController {
         return response.getBody();
     }
 
+    /**
+     * Get favorite.
+     * @param id
+     * @return response body.
+     */
+    @GetMapping("favorite/get/{id}")
+    @ResponseBody
+    public String getFavorite(@PathVariable String id) {
+
+        String favorite = favorites.get(Integer.parseInt(id));
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(favorite, String.class);
+
+        return response.getBody();
+    }
+
+    /**
+     * Add favorite.
+     * @param origin
+     * @param destination
+     */
     @PostMapping("favorite/add/{origin}/{destination}")
     @GetMapping("favorite/add/{originId}/{destId}")
     @ResponseBody
-    public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
+    public void addFavorite(@RequestParam("originId") Location origin, @RequestParam("destId") Location destination) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(originId)
-                .append("&destId=").append(destId)
+                .append("&originId=").append(origin.lat + "." + origin.lon)
+                .append("&destId=").append(destination.lat + "." + destination.lon)
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("YOUR-API-KEY");
+
         favorites.add(builder.toString());
         System.out.println("Favorite added.");
     }
 
+    /**
+     * Update favorite.
+     * @param id
+     * @param name
+     */
     @PutMapping("favorite/update/{id}")
     @ResponseBody
     public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
@@ -236,6 +263,10 @@ public class TripController {
         System.out.println("Favorite updated.");
     }
 
+    /**
+     * Remove favorite.
+     * @param id
+     */
     @DeleteMapping("favorite/remove/{id}")
     @ResponseBody
     public void removeFavorite(@RequestParam("id") String id) {
@@ -244,17 +275,12 @@ public class TripController {
         System.out.println("Favorite removed.");
     }
 
-    @GetMapping("favorite/get/{id}")
-    @ResponseBody
-    public String getFavorite(@RequestParam("id") String id) {
-
-        String favorite = favorites.get(Integer.parseInt(id));
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(favorite, String.class);
-
-        return response.getBody();
-    }
-
+    /**
+     * Add complaint.
+     * @param topic
+     * @param description
+     * @return
+     */
     @PostMapping("complaint/add/{topic}/{description}")
     @ResponseBody
     public List<Complaint> addComplaint(@RequestParam("topic") String topic,
