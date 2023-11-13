@@ -98,6 +98,7 @@ public class TripController {
     }
 
     /**
+     * Get route from origin to current location.
      * @param origin
      * @return
      */
@@ -121,6 +122,7 @@ public class TripController {
     }
 
     /**
+     *
      * @param destination
      * @return
      */
@@ -183,6 +185,7 @@ public class TripController {
                 .append("&format=").append("json")
                 .append("&apiKey=").append("Api_KEY");
 
+
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
@@ -215,6 +218,9 @@ public class TripController {
      * Get favorite.
      * @param id
      * @return response body.
+     *
+     * @param id
+     * @return response body.
      */
     @GetMapping("favorite/get/{id}")
     @ResponseBody
@@ -227,11 +233,6 @@ public class TripController {
         return response.getBody();
     }
 
-    /**
-     * Add favorite.
-     * @param origin
-     * @param destination
-     */
     @PostMapping("favorite/add/{origin}/{destination}")
     @GetMapping("favorite/add/{originId}/{destId}")
     @ResponseBody
@@ -263,10 +264,6 @@ public class TripController {
         System.out.println("Favorite updated.");
     }
 
-    /**
-     * Remove favorite.
-     * @param id
-     */
     @DeleteMapping("favorite/remove/{id}")
     @ResponseBody
     public void removeFavorite(@RequestParam("id") String id) {
@@ -275,12 +272,6 @@ public class TripController {
         System.out.println("Favorite removed.");
     }
 
-    /**
-     * Add complaint.
-     * @param topic
-     * @param description
-     * @return
-     */
     @PostMapping("complaint/add/{topic}/{description}")
     @ResponseBody
     public List<Complaint> addComplaint(@RequestParam("topic") String topic,
