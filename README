@@ -1,5 +1,11 @@
 1. JWT authentication.
 2. Make API calls to resrobot to fetch realtime routes.
 3. Save resrobot endpoint as a string.
+4. GeoApify API to fetch coordinates of user.
+5. GeoApify distance of two points API to calculate distance between user location and destination location.
+6. Get route by transportation type, parameter "mode" defines transportation type. "vehicle/bicycle/walk/scooter"
+7. "Send a complaint". User can send a complaint to the server. Complaints are stored in a list.
+
+You need api-key for resrobot and geoapify.
 
 API responses is found under resources folder.
