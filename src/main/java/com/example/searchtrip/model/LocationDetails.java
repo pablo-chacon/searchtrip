@@ -42,4 +42,5 @@ public class LocationDetails {
         this.stops = new Location[]{location};
     }
 
+
 }
