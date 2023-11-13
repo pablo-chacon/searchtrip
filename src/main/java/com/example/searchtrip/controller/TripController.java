@@ -102,7 +102,7 @@ public class TripController {
      * @param origin
      * @return
      */
-    @PostMapping("fromOrigin/{origin}")
+    @PostMapping("route/{origin}")
     @GetMapping("route/{origin}")
     @ResponseBody
     public Location getOrigin(@RequestParam("origin") String origin) {
@@ -125,7 +125,7 @@ public class TripController {
      * @param destination
      * @return response body.
      */
-    @PostMapping("toDestination/{destination}")
+    @PostMapping("route/{destination}")
     @GetMapping("route/{destination}")
     @ResponseBody
     public Location getDestination(@RequestParam("destination") String destination) {
