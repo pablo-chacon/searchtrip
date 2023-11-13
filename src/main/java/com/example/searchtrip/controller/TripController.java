@@ -148,6 +148,7 @@ public class TripController {
 
     @PostMapping("nearbystops")
     @GetMapping("nearbystops")
+    @ResponseBody
     public String getNearbyStops() {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.nearbystops?");
@@ -227,6 +228,7 @@ public class TripController {
     }
 
     @PutMapping("favorite/update/{id}")
+    @ResponseBody
     public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
 
         favorites.remove(id);
@@ -235,6 +237,7 @@ public class TripController {
     }
 
     @DeleteMapping("favorite/remove/{id}")
+    @ResponseBody
     public void removeFavorite(@RequestParam("id") String id) {
 
         favorites.remove(id);
