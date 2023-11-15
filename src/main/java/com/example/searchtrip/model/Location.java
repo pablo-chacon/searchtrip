@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Location {
 
     @Id
@@ -22,6 +24,8 @@ public class Location {
     public String lon;
     public String time;
     public String date;
+    public String originWalk;
+    public String destinationWalk;
     public String stops;
 
 }

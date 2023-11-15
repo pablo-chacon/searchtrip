@@ -1,8 +1,10 @@
 package com.example.searchtrip.service;
-/*
+
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -10,46 +12,27 @@ import java.util.List;
 public class TripService {
 
 
-    private List<String> favoriteList;
-    private List<String> complaints;
-
-
-    public List<String> addFavorite(String name) {
-        favoriteList.add(name);
-        return favoriteList;
+    private RestTemplate restTemplate;
+    List<String> origin = Arrays.asList("origin");
+    public TripService() {
+        this.restTemplate = new RestTemplate();
     }
 
-    /**
-     * Removes favorite..
-     * @param favorite name of favorite to be removed.
-     */
-  /*  public void removeFavorite(String favorite) {
-        favoriteList.remove(favorite);
+    public List<String> getLocation() {
+        String geo = restTemplate.getForObject("http://127.0.0.1:9999/api/currentlocation/", String.class);
+        return Arrays.asList(geo.split(","));
     }
 
-    /**
-     * Adds a favorite to the favorite list.
-     * @param favorite The name of the favorite list to add the favorite to.
-     * @param newFavorite The favorite to add to the favorite list.
-     */
-   /* public void updateFavorite(String favorite, String newFavorite) {
-        favoriteList.remove(favorite);
-        favoriteList.add(newFavorite);
+    public String getOrigin(String origin) {
+        return restTemplate.getForObject("http://127.0.0.1:9999/api/from?" + origin, String.class);
     }
 
-    public List<String> getAllFavorites() {
-
-        return favoriteList;
+    public String getDestination(String destination) {
+        return restTemplate.getForObject("http://127.0.0.1:9999/api/to/" + destination, String.class);
     }
 
-    public String addComplaint(String topic, String description) {
-        complaints.add(topic + "\n" + description);
-        return "Complaint registered.";
-    }
 
-    public List<String> getComplaints() {
-        return complaints;
-    }
+
 }
 
-    */
+

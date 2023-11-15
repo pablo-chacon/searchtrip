@@ -29,6 +29,12 @@ public class LocationDetails {
     @JsonAlias("date")
     private String date;
 
+    @JsonAlias("originWalk")
+    private String originWalk;
+
+    @JsonAlias("destinationWalk")
+    private String destinationWalk;
+
     @JsonAlias("stops")
     private Location[] stops;
 
@@ -37,10 +43,13 @@ public class LocationDetails {
         this.extId = location.getExtId();
         this.lat = location.getStops();
         this.lon = location.getLon();
-        this.time = location.getTime();
-        this.date = location.getDate();
-        this.stops = new Location[]{location};
+        //this.time = location.getTime();
+        //this.date = location.getDate();
+        this.originWalk = location.getOriginWalk();
+        this.destinationWalk = location.getDestinationWalk();
+        //this.stops = new Location[]{location};
     }
+
 
 
 }
