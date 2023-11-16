@@ -43,8 +43,6 @@ public class LocationDetails {
         this.extId = location.getExtId();
         this.lat = location.getStops();
         this.lon = location.getLon();
-        //this.time = location.getTime();
-        //this.date = location.getDate();
         this.originWalk = location.getOriginWalk();
         this.destinationWalk = location.getDestinationWalk();
         //this.stops = new Location[]{location};

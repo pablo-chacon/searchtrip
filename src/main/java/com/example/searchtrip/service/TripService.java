@@ -1,6 +1,7 @@
 package com.example.searchtrip.service;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,15 +13,15 @@ import java.util.List;
 public class TripService {
 
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
     List<String> origin = Arrays.asList("origin");
-    public TripService() {
-        this.restTemplate = new RestTemplate();
+    public TripService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
-    public List<String> getLocation() {
-        String geo = restTemplate.getForObject("http://127.0.0.1:9999/api/currentlocation/", String.class);
-        return Arrays.asList(geo.split(","));
+    public ResponseEntity<String> getLocation() {
+        //Arrays.asList(geo.split(","));
+        return restTemplate.getForEntity("http://127.0.0.1:9999/api/currentlocation/", String.class);
     }
 
     public String getOrigin(String origin) {
@@ -31,7 +32,9 @@ public class TripService {
         return restTemplate.getForObject("http://127.0.0.1:9999/api/to/" + destination, String.class);
     }
 
-
+    public String getRoute(String origin, String destination) {
+        return restTemplate.getForObject("http://127.0.0.1:9999/api/route/" + origin + "/" + destination, String.class);
+    }
 
 }
 

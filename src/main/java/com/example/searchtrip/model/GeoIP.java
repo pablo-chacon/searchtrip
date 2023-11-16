@@ -21,7 +21,6 @@ public class GeoIP {
     private String ipAddress;
     private String city;
     private String country;
-    private String location;
     private String longitude;
     private String latitude;
 

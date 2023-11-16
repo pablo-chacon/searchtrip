@@ -49,53 +49,47 @@ public class TripController {
 
     /**
      * Get route from origin to destination.
-     * @param origin
-     * @param destination
+     *
+     * @param originId
+     * @param destId
      * @return
      */
-    @GetMapping("route/{origin}/{destination}")
-    public String getRoute(@RequestParam("origin") String origin, @RequestParam("destination") String destination) {
-
-        String originId = tripService.getOrigin(origin);
-        String destId = tripService.getDestination(destination);
-
+    @GetMapping("route")
+    @ResponseBody
+    public String getRoute(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(originId)
-                .append("&destId=").append(destId)
-                .append("&originWalk=").append("1,0,5000,80")
-                .append("&destWalk=").append("1,0,5000,80")
+                .append("&originId=").append(originId) //"740000001"
+                .append("&destId=").append(destId) //"740000003"
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
+
         return response.getBody();
     }
 
 
 
-    @PostMapping("from/{origin}")
-    @GetMapping("from/{origin}")
-    public ResponseEntity<Location> getOrigin(@PathVariable("origin") String origin) {
+    @GetMapping("fromOrigin")
+    @ResponseBody
+    public String getOrigin(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
-                .append("input=").append(origin)
-                .append("&maxNo=").append("3")
+                .append("input=").append(input)
                 .append("&format=").append("json")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
-        ResponseEntity<Location> response = restTemplate
-                .getForEntity(builder.toString(), Location.class);
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
 
-        tripService.getOrigin(response.getBody().getExtId());
-        routes.put(origin, response.getBody());
 
-        return ResponseEntity.ok(response.getBody());
+        return response.getBody();
     }
 
 
@@ -122,9 +116,10 @@ public class TripController {
      * @param input
      * @return response body.
      */
-    @PostMapping("to/{destination}")
-    @GetMapping("to/{destination}")
-    public ResponseEntity<Location> getDestination(@PathVariable("destination") String input) {
+
+    @GetMapping("toDestination")
+    @ResponseBody
+    public String getDest(@RequestParam("input") String input) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.name?");
         builder
@@ -132,13 +127,11 @@ public class TripController {
                 .append("&format=").append("json")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
-        ResponseEntity<Location> response = restTemplate
-                .getForEntity(builder.toString(), Location.class);
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(builder.toString(), String.class);
 
 
-        routes.put(input, response.getBody());
-
-        return ResponseEntity.ok(response.getBody());
+        return response.getBody();
     }
 
     /**
@@ -205,19 +198,14 @@ public class TripController {
         System.out.println("Favorite added.");
     }
 
-    /**
-     * Update favorite.
-     * @param id
-     * @param name
-     */
-    @PutMapping("favorite/update/{id}")
+    /*@PutMapping("favorite/update/{id}")
     @ResponseBody
     public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
 
         favorites.remove(id);
         favorites.add(Integer.parseInt(id), getRoute(routes.get(name).extId, routes.get(name).extId));
         System.out.println("Favorite updated.");
-    }
+    }*/
 
     @DeleteMapping("favorite/remove/{id}")
     @ResponseBody
