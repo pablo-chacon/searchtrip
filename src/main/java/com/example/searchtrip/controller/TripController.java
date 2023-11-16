@@ -64,6 +64,8 @@ public class TripController {
                 .append("&originId=").append(originId) //"740000001"
                 .append("&destId=").append(destId) //"740000003"
                 .append("&passlist=").append("true")
+                .append("&originwalk=").append("1,0,1000,75")
+                .append("destwalk=").append("1,0,1000,75")
                 .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
 
         ResponseEntity<String> response = restTemplate
