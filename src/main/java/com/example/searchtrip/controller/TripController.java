@@ -66,7 +66,7 @@ public class TripController {
                 .append("&passlist=").append("true")
                 .append("&originwalk=").append("1,0,1000,75")
                 .append("destwalk=").append("1,0,1000,75")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -85,7 +85,7 @@ public class TripController {
         builder
                 .append("input=").append(input)
                 .append("&format=").append("json")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -104,7 +104,7 @@ public class TripController {
 
         StringBuilder builder = new StringBuilder("https://api.geoapify.com/v1/ipinfo?" );
         builder
-            .append("&apiKey=").append("00dee41792a54aee8cbb5a6f145b3d0d");
+            .append("&apiKey=").append("YOUR-API-KEY");
 
 
         ResponseEntity<String> response = restTemplate
@@ -127,7 +127,7 @@ public class TripController {
         builder
                 .append("input=").append(input)
                 .append("&format=").append("json")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -154,7 +154,7 @@ public class TripController {
                 .append("&format=").append("json")
                 .append("&maxNo=").append("10")
                 .append("&maxDist=").append("500")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
@@ -194,7 +194,7 @@ public class TripController {
                 .append("&originId=").append(origin.getExtId())
                 .append("&destId=").append(destination.getExtId())
                 .append("&passlist=").append("true")
-                .append("&accessId=").append("7a44df73-9725-4578-bed3-458c8586bcac");
+                .append("&accessId=").append("YOUR-API-KEY");
 
         favorites.add(builder.toString());
         System.out.println("Favorite added.");
