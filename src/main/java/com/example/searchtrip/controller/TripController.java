@@ -1,7 +1,5 @@
 package com.example.searchtrip.controller;
 
-import com.example.searchtrip.model.GeoIP;
-import com.example.searchtrip.model.Location;
 import com.example.searchtrip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +23,7 @@ public class TripController {
 
 
 
-    public HashMap<String, Location> routes = new HashMap<>();
+    public HashMap<String, String> routes = new HashMap<>();
 
     public List<String> favorites = new ArrayList<>();
     public List<String> complaints = new ArrayList<>();
@@ -36,12 +34,13 @@ public class TripController {
         return "Search history:" + routes;
     }
 
-    @GetMapping("favorites")
+    @GetMapping("get/favorites")
     public List<String> getFavorites() {
+        System.out.println("Your favorites: ");
         return favorites;
     }
 
-    @GetMapping("complaints")
+    @GetMapping("get/complaints")
     public List<String> getComplaints() {
         System.out.println("Your complaints: ");
         return complaints;
@@ -49,7 +48,7 @@ public class TripController {
 
     /**
      * Get route from origin to destination.
-     *
+     * Add origin and destination to routes.
      * @param originId
      * @param destId
      * @return
@@ -71,12 +70,16 @@ public class TripController {
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
+        routes.put(originId + " to " + destId, builder.toString());
 
         return response.getBody();
     }
 
-
-
+    /**
+     * Get origin, location of departure.
+     * @param input
+     * @return response body.
+     */
     @GetMapping("fromOrigin")
     @ResponseBody
     public String getOrigin(@RequestParam("input") String input) {
@@ -96,7 +99,7 @@ public class TripController {
 
 
     /**
-     * Get current location.
+     * Get current geo-location by IP.
      * @return response body.
      */
     @GetMapping("currentlocation")
@@ -106,19 +109,17 @@ public class TripController {
         builder
             .append("&apiKey=").append("YOUR-API-KEY");
 
-
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
-
 
         return ResponseEntity.ok(response.getBody());
     }
 
     /**
+     * Get destination, location of arrival.
      * @param input
      * @return response body.
      */
-
     @GetMapping("toDestination")
     @ResponseBody
     public String getDest(@RequestParam("input") String input) {
@@ -132,25 +133,23 @@ public class TripController {
         ResponseEntity<String> response = restTemplate
                 .getForEntity(builder.toString(), String.class);
 
-
         return response.getBody();
     }
 
     /**
-     * Get nearby stops.
+     * Get nearby stops, by geo-location.
+     * @param latitude
+     * @param longitude
      * @return response body.
      */
-    //@PostMapping("nearbystops")
-    @GetMapping("nearbystops")
+    @GetMapping("get/nearbystops")
     @ResponseBody
-    public String getNearbyStops(@PathVariable("nearbystops") GeoIP geoIP) {
-
-        //geoIP = tripService.getLocation();
+    public String getNearbyStops(@RequestParam("latitude") String latitude, @RequestParam("longitude") String longitude) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/location.nearbystops?");
         builder
-                .append("originCoordLat=").append(geoIP.getLatitude())
-                .append("&originCoordLong=").append(geoIP.getLongitude())
+                .append("originCoordLat=").append(latitude)
+                .append("&originCoordLong=").append(longitude)
                 .append("&format=").append("json")
                 .append("&maxNo=").append("10")
                 .append("&maxDist=").append("500")
@@ -162,17 +161,13 @@ public class TripController {
         return response.getBody();
     }
 
-
-
     /**
-     * Get favorite.
+     * Get favorite by id.
+     * Request param id is the index of the favorite.
      * @param id
-     * @return response body.
-     *
-     * @param id
-     * @return response body.
+     * @return response body of favorite uri.
      */
-    @GetMapping("favorite/get/{id}")
+    @GetMapping("get/favorite/{id}")
     @ResponseBody
     public String getFavorite(@PathVariable int id) {
 
@@ -183,44 +178,50 @@ public class TripController {
         return response.getBody();
     }
 
-    @PostMapping("favorite/add/{origin}/{destination}")
-    @GetMapping("favorite/add/{originId}/{destId}")
+    /**
+     * @param originId string EXTID or lat + lon is valid.
+     * @param destId string EXTID or lat + lon is valid
+     */
+    @PostMapping("add/favorite")
+    @GetMapping("add/favorite")
     @ResponseBody
-    public void addFavorite(@RequestParam("originId") Location origin, @RequestParam("destId") Location destination) {
+    public void addFavorite(@RequestParam("originId") String originId, @RequestParam("destId") String destId) {
 
         StringBuilder builder = new StringBuilder("https://api.resrobot.se/v2.1/trip?");
         builder
                 .append("format=").append("json")
-                .append("&originId=").append(origin.getExtId())
-                .append("&destId=").append(destination.getExtId())
+                .append("&originId=").append(originId)
+                .append("&destId=").append(destId)
                 .append("&passlist=").append("true")
                 .append("&accessId=").append("YOUR-API-KEY");
 
         favorites.add(builder.toString());
+
         System.out.println("Favorite added.");
     }
 
-    /*@PutMapping("favorite/update/{id}")
+    @PutMapping("update/favorite/{id}")
     @ResponseBody
-    public void updateFavorite(@RequestParam("id") String id, @PathVariable String name) {
+    public void updateFavorite(@RequestParam("originId") String originId, @PathVariable String id) {
 
         favorites.remove(id);
-        favorites.add(Integer.parseInt(id), getRoute(routes.get(name).extId, routes.get(name).extId));
+        favorites.add(Integer.parseInt(id), String.valueOf(routes.containsValue(originId)));
+
         System.out.println("Favorite updated.");
-    }*/
+    }
 
-    @DeleteMapping("favorite/remove/{id}")
+    @DeleteMapping("remove/favorite{id}")
     @ResponseBody
-    public void removeFavorite(@RequestParam("id") String id) {
+    public void removeFavorite(@PathVariable("id") String id) {
 
         favorites.remove(id);
+
         System.out.println("Favorite removed.");
     }
 
-    @PostMapping("complaint/add/{topic}/{description}")
+    @PostMapping("add/complaint")
     @ResponseBody
-    public List<String> addComplaint(@RequestParam("topic") String topic,
-                                        @RequestParam("description") String description) {
+    public List<String> addComplaint(@RequestParam("topic") String topic, @RequestParam("description") String description) {
         complaints.add("topic: " + topic + " description: " + description);
 
         return complaints;
