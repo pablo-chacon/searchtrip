@@ -1,7 +1,7 @@
 package com.example.searchtrip.model;
 
-
 import lombok.Data;
+
 
 @Data
 public class UserDetails {

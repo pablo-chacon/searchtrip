@@ -1,6 +1,5 @@
 package com.example.searchtrip.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -9,12 +8,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class GeoIP {
+
 
     @Id
     @GeneratedValue
@@ -23,6 +24,5 @@ public class GeoIP {
     private String country;
     private String longitude;
     private String latitude;
-
 
 }

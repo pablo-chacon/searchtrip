@@ -38,16 +38,15 @@ public class LocationDetails {
     @JsonAlias("stops")
     private Location[] stops;
 
+
     public LocationDetails(Location location) {
+
         this.name = location.getName();
         this.extId = location.getExtId();
         this.lat = location.getStops();
         this.lon = location.getLon();
         this.originWalk = location.getOriginWalk();
         this.destinationWalk = location.getDestinationWalk();
-        //this.stops = new Location[]{location};
     }
-
-
 
 }

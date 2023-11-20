@@ -11,17 +11,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/auth/*")
 public class UserController {
 
+  /**
+   * Sign in with username and password.
+   * @param userDetails
+   * @return response code 200 and token if successful.
+   */
   @PostMapping("login")
   public ResponseEntity<String> signIn(@RequestBody UserDetails userDetails) {
+
     String token = JwtUtil.sign(userDetails.getUsername());
 
     return ResponseEntity.ok(token);
   }
 
+  /**
+   * Verify token.
+   * @param token
+   * @return response code 200 if successful.
+   */
   @PostMapping("verify")
   public ResponseEntity<String> verifyToken(@RequestBody String token) {
 
@@ -36,5 +48,6 @@ public class UserController {
       return ResponseEntity.status(400).body("Malformed token.");
     }
   }
+
 }
 

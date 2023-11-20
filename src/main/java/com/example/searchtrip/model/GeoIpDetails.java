@@ -3,8 +3,10 @@ package com.example.searchtrip.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Data;
 
+
 @Data
 public class GeoIpDetails {
+
 
     @JsonAlias("location")
     private GeoIP[] location;

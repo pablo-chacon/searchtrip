@@ -20,11 +20,7 @@ public class TripController {
     RestTemplate restTemplate;
     @Autowired
     TripService tripService;
-
-
-
     public HashMap<String, String> routes = new HashMap<>();
-
     public List<String> favorites = new ArrayList<>();
     public List<String> complaints = new ArrayList<>();
 
@@ -49,8 +45,8 @@ public class TripController {
     /**
      * Get route from origin to destination.
      * Add origin and destination to routes.
-     * @param originId
-     * @param destId
+     * @param originId string EXTID or lat + lon is valid.
+     * @param destId string EXTID or lat + lon is valid.
      * @return
      */
     @GetMapping("route")
@@ -78,7 +74,7 @@ public class TripController {
     /**
      * Get origin, location of departure.
      * @param input
-     * @return response body.
+     * @return response stop/station/location by name.
      */
     @GetMapping("fromOrigin")
     @ResponseBody
@@ -97,9 +93,8 @@ public class TripController {
         return response.getBody();
     }
 
-
     /**
-     * Get current geo-location by IP.
+     * Get current geolocation by IP.
      * @return response body.
      */
     @GetMapping("currentlocation")
@@ -118,7 +113,7 @@ public class TripController {
     /**
      * Get destination, location of arrival.
      * @param input
-     * @return response body.
+     * @return response a stop/station/location by name.
      */
     @GetMapping("toDestination")
     @ResponseBody
@@ -137,10 +132,10 @@ public class TripController {
     }
 
     /**
-     * Get nearby stops, by geo-location.
+     * Get nearby stops, by geolocation.
      * @param latitude
      * @param longitude
-     * @return response body.
+     * @return response nearby stops by geolocation.
      */
     @GetMapping("get/nearbystops")
     @ResponseBody
@@ -164,8 +159,8 @@ public class TripController {
     /**
      * Get favorite by id.
      * Request param id is the index of the favorite.
-     * @param id
-     * @return response body of favorite uri.
+     * @pathvariable id.
+     * @return response favorite response.
      */
     @GetMapping("get/favorite/{id}")
     @ResponseBody
@@ -181,6 +176,7 @@ public class TripController {
     /**
      * @param originId string EXTID or lat + lon is valid.
      * @param destId string EXTID or lat + lon is valid
+     * Adds favorite uri t list.
      */
     @PostMapping("add/favorite")
     @GetMapping("add/favorite")
@@ -200,6 +196,11 @@ public class TripController {
         System.out.println("Favorite added.");
     }
 
+    /**
+     * @param originId
+     * @param id
+     * Update favorite from search history.
+     */
     @PutMapping("update/favorite/{id}")
     @ResponseBody
     public void updateFavorite(@RequestParam("originId") String originId, @PathVariable String id) {
@@ -210,6 +211,10 @@ public class TripController {
         System.out.println("Favorite updated.");
     }
 
+    /**
+     * @param id
+     * Remove favorite from list.
+     */
     @DeleteMapping("remove/favorite{id}")
     @ResponseBody
     public void removeFavorite(@PathVariable("id") String id) {
@@ -219,6 +224,11 @@ public class TripController {
         System.out.println("Favorite removed.");
     }
 
+    /**
+     * @param topic
+     * @param description
+     * Add complaint to list.
+     */
     @PostMapping("add/complaint")
     @ResponseBody
     public List<String> addComplaint(@RequestParam("topic") String topic, @RequestParam("description") String description) {
@@ -226,5 +236,6 @@ public class TripController {
 
         return complaints;
     }
+
 }
 
