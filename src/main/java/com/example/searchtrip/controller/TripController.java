@@ -47,7 +47,7 @@ public class TripController {
      * Add origin and destination to routes.
      * @param originId string EXTID or lat + lon is valid.
      * @param destId string EXTID or lat + lon is valid.
-     * @return
+     * @return response body.
      */
     @GetMapping("route")
     @ResponseBody
