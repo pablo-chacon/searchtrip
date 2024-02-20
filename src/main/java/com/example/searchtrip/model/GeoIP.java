@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GeoIP {
 
-
     @Id
     @GeneratedValue
     private String ipAddress;

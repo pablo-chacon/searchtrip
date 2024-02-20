@@ -22,7 +22,6 @@ public class GeoIpDetails {
         this.lon = geoIP.getLongitude();
         this.lat = geoIP.getLatitude();
     }
-
 }
 
 
